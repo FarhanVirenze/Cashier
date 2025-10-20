@@ -21,6 +21,16 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
+                    @can('admin')
+                        <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
+                            {{ __('Kasir') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('product.index')" :active="request()->routeIs('product.index')">
+                            {{ __('Produk') }}
+                        </x-nav-link>
+                    @endcan
+
                     <x-nav-link :href="route('pos.index')" :active="request()->routeIs('pos.index')">
                         {{ __('Point of Sale') }}
                     </x-nav-link>
@@ -30,14 +40,6 @@
                     </x-nav-link>
 
                     @can('admin')
-                        <x-nav-link :href="route('product.index')" :active="request()->routeIs('product.index')">
-                            {{ __('Product') }}
-                        </x-nav-link>
-
-                        <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
-                            {{ __('User') }}
-                        </x-nav-link>
-
                         <x-nav-link :href="route('detailpenjualan.index')"
                             :active="request()->routeIs('detailpenjualan.index')">
                             {{ __('Transaksi Penjualan') }}
@@ -142,23 +144,25 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
+            @can('admin')
+                <x-responsive-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
+                    {{ __('Kasir') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('product.index')" :active="request()->routeIs('product.index')">
+                    {{ __('Produk') }}
+                </x-responsive-nav-link>
+            @endcan
+
             <x-responsive-nav-link :href="route('pos.index')" :active="request()->routeIs('pos.index')">
-                {{ __('Point Of Sale') }}
+                {{ __('Point of Sale') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('transaksi.index')" :active="request()->routeIs('transaksi.index')">
+             <x-responsive-nav-link :href="route('transaksi.index')" :active="request()->routeIs('transaksi.index')">
                 {{ __('Laporan Penjualan') }}
             </x-responsive-nav-link>
 
             @can('admin')
-                <x-responsive-nav-link :href="route('product.index')" :active="request()->routeIs('product.index')">
-                    {{ __('Manajemen Produk') }}
-                </x-responsive-nav-link>
-
-                <x-responsive-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
-                    {{ __('Manajemen Kasir') }}
-                </x-responsive-nav-link>
-
                 <x-responsive-nav-link :href="route('detailpenjualan.index')"
                     :active="request()->routeIs('detailpenjualan.index')">
                     {{ __('Transaksi Penjualan') }}

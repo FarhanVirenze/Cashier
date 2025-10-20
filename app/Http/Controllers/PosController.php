@@ -18,7 +18,7 @@ class PosController extends Controller
             $query->where('nama', 'like', '%' . $request->input('product-search') . '%');
         }
 
-        $products = $query->latest()->paginate(6);
+        $products = $query->latest()->paginate(12);
 
         $items = CartItem::with('product')->where('user_id', Auth::id())->get();
 

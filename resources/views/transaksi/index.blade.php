@@ -6,7 +6,8 @@
     </x-slot>
 
     <div class="py-4">
-        <div class="max-w-7xl mx-auto sm:px-4 lg:px-6">
+        {{-- Lebarkan area utama --}}
+        <div class="max-w-[98%] mx-auto sm:px-4 lg:px-6">
             <div class="space-y-4">
 
                 {{-- Notifikasi --}}
@@ -25,7 +26,7 @@
                 @endif
 
                 {{-- Filter Laporan Penjualan --}}
-                <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+                <div class="bg-blue-50 border border-blue-100 shadow-md rounded-lg p-6 mb-6">
                     <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Filter Laporan Penjualan</h3>
 
                     <form action="{{ route('transaksi.index') }}" method="GET"
@@ -55,91 +56,201 @@
                                 <i class="fa fa-undo"></i> Reset
                             </a>
                         </div>
-
                     </form>
                 </div>
 
-                {{-- Desktop Table --}}
-                <div class="hidden md:block">
-                    <table class="min-w-full bg-white text-gray-900 shadow-lg rounded-lg overflow-hidden">
-                        <thead>
-                            <tr class="bg-blue-600 text-white uppercase text-sm">
-                                <th class="px-4 py-2">No</th>
-                                <th class="px-4 py-2">No. Invoice</th>
-                                <th class="px-4 py-2">Tanggal</th>
-                                <th class="px-4 py-2">Kasir</th>
-                                <th class="px-4 py-2">Pelanggan</th>
-                                <th class="px-4 py-2">Nomor</th>
-                                <th class="px-4 py-2">Metode</th>
-                                <th class="px-4 py-2">Sub Total</th>
-                                <th class="px-4 py-2">Total Bayar</th>
-                                <th class="px-4 py-2">Total Modal</th>
-                                <th class="px-4 py-2">Profit</th>
-                                <th class="px-4 py-2">Kembalian</th>
-                                <th class="px-4 py-2">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($transaksi as $i => $trx)
-                                <tr class="border-b border-gray-200 hover:bg-blue-50 transition-colors duration-200">
-                                    <td class="px-4 py-2 font-medium">{{ $i + 1 }}</td>
-                                    <td class="px-4 py-2 font-semibold text-gray-800">{{ $trx->no_invoice }}</td>
-                                    <td class="px-4 py-2">{{ \Carbon\Carbon::parse($trx->tanggal)->translatedFormat('d F Y') }}</td>
-                                    <td class="px-4 py-2">{{ $trx->nama_user }}</td>
-                                    <td class="px-4 py-2">{{ $trx->nama_pelanggan ?? '-' }}</td>
-                                    <td class="px-4 py-2">{{ $trx->nomor_pelanggan ?? '-' }}</td>
-                                    <td class="px-4 py-2">{{ $trx->metode_pembayaran }}</td>
-                                    <td class="px-4 py-2 font-semibold text-gray-800">
-                                        Rp{{ number_format($trx->total, 0, ',', '.') }}
-                                    </td>
-                                    <td class="px-4 py-2 font-semibold text-gray-800">
-                                        Rp{{ number_format($trx->jumlah_bayar, 0, ',', '.') }}
-                                    </td>
-                                    <td class="px-4 py-2 font-semibold text-gray-800">
-                                        Rp{{ number_format($trx->total_modal, 0, ',', '.') }}
-                                    </td>
-                                    <td class="px-4 py-2 font-semibold text-gray-800">
-                                        Rp{{ number_format($trx->profit, 0, ',', '.') }}
-                                    </td>
-                                    <td class="px-4 py-2 font-semibold text-gray-800">
-                                        Rp{{ number_format($trx->kembalian, 0, ',', '.') }}
-                                    </td>
-                                    <td class="px-4 py-2 flex space-x-2">
-                                        <a href="{{ route('transaksi.cetak', $trx->id) }}" target="_blank"
-                                            class="text-amber-600 hover:amber-800 font-semibold text-sm flex items-center">
-                                            <i class="fa-solid fa-print mr-1"></i> Cetak Struk
-                                        </a>
+                {{-- === Tambahan logika baru === --}}
+                @php
+                    $hasFilter = request('start_date') && request('end_date');
+                    $start = request('start_date');
+                    $end = request('end_date');
+                @endphp
 
-                                        <button type="button" onclick="openDetailModal({{ $trx->id }})"
-                                            class="text-blue-600 hover:text-blue-800 font-semibold text-sm flex items-center">
-                                            <i class="fa-solid fa-eye mr-1"></i> Detail
-                                        </button>
+                @if (!$hasFilter)
+                    <div
+                        class="bg-blue-100 border border-blue-400 text-blue-800 px-4 py-3 rounded-lg text-sm font-medium text-center">
+                        Silakan pilih rentang tanggal terlebih dahulu untuk menampilkan data laporan penjualan.
+                    </div>
+                @endif
 
-                                        @auth
-                                            @if(auth()->user()->is_admin)
-                                                <form action="{{ route('transaksi.destroy', $trx->id) }}" method="POST"
-                                                    onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="text-red-600 hover:text-red-800 font-semibold text-sm flex items-center">
-                                                        <i class="fa-solid fa-trash mr-1"></i> Hapus
+                {{-- === Desktop Table === --}}
+                @if ($hasFilter)
+                    <div class="hidden md:block space-y-4">
+
+                        {{-- === Header Data Penjualan === --}}
+<div class="bg-blue-50 shadow-md rounded-lg border border-blue-100 p-5">
+    <h3 class="text-xl font-bold text-gray-800 border-b border-gray-300 pb-2 mb-4">
+        Data Penjualan
+    </h3>
+
+    {{-- Rentang Tanggal (Atas-Bawah) --}}
+    <div class="flex flex-col gap-3 mb-4">
+        <div class="flex items-center">
+            <span class="font-semibold w-40 text-gray-700">Dari Tanggal</span>
+            <span class="text-gray-800">
+                : {{ $start ? date('d/m/Y', strtotime($start)) : '-' }}
+            </span>
+        </div>
+        <div class="flex items-center">
+            <span class="font-semibold w-40 text-gray-700">Sampai Tanggal</span>
+            <span class="text-gray-800">
+                : {{ $end ? date('d/m/Y', strtotime($end)) : '-' }}
+            </span>
+        </div>
+    </div>
+
+    {{-- Tombol Aksi + Search sejajar --}}
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        {{-- Tombol Aksi --}}
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ route('transaksi.export-pdf', ['start_date' => $start, 'end_date' => $end]) }}"
+                class="flex items-center bg-green-600 hover:bg-green-700 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition-all duration-150">
+                <i class="fa-solid fa-file-pdf mr-2"></i> CETAK PDF
+            </a>
+
+            <button onclick="window.print()"
+                class="flex items-center bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition-all duration-150">
+                <i class="fa-solid fa-print mr-2"></i> PRINT
+            </button>
+        </div>
+
+       {{-- 🔍 Search Box Modern & Stylish (dengan tombol Reset di luar) --}}
+<div class="flex items-center justify-end gap-2 mt-2 w-full sm:w-auto">
+    {{-- Form Search --}}
+    <form action="{{ route('transaksi.index') }}" method="GET"
+        class="relative flex items-center bg-white/80 backdrop-blur-md border border-gray-200 rounded-full shadow-sm hover:shadow-md transition-all duration-300 focus-within:ring-2 focus-within:ring-blue-400 w-full sm:w-80">
+
+        {{-- Hidden input agar filter tanggal tetap tersimpan --}}
+        <input type="hidden" name="start_date" value="{{ $start }}">
+        <input type="hidden" name="end_date" value="{{ $end }}">
+
+        {{-- Icon Search (di kiri dalam input) --}}
+        <span class="absolute left-4 text-gray-400">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </span>
+
+        {{-- Input Field --}}
+        <input type="text" name="search" value="{{ request('search') }}"
+            placeholder="Cari transaksi..."
+            class="w-full pl-10 pr-9 py-2 text-sm text-gray-700 bg-transparent rounded-full focus:outline-none placeholder-gray-400 transition-all" />
+
+        {{-- Tombol Submit (ikon panah di kanan) --}}
+        <button type="submit"
+            class="absolute right-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full w-7 h-7 flex items-center justify-center shadow transition-all duration-200 hover:scale-105"
+            title="Cari">
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+        </button>
+    </form>
+
+    {{-- Tombol Reset (di luar input) --}}
+    @if(request('search'))
+        <a href="{{ route('transaksi.index', ['start_date' => $start, 'end_date' => $end]) }}"
+            class="flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-600 border border-gray-200 text-sm font-medium px-3 py-2 rounded-full shadow-sm transition-all duration-200"
+            title="Reset pencarian">
+            <i class="fa-solid fa-rotate-left"></i>
+            <span>Reset</span>
+        </a>
+    @endif
+</div>
+</div>
+                        </div>
+
+                        {{-- === Tabel Data Penjualan === --}}
+                        <div
+                            class="overflow-x-auto rounded-lg shadow-lg border border-gray-200 bg-white max-w-[98vw] mx-auto">
+                            <table class="min-w-full text-gray-900 whitespace-nowrap">
+                                <thead>
+                                    <tr class="bg-blue-600 text-white uppercase text-sm">
+                                        <th class="px-4 py-2">No</th>
+                                        <th class="px-4 py-2">No. Invoice</th>
+                                        <th class="px-4 py-2">Tanggal</th>
+                                        <th class="px-4 py-2">Kasir</th>
+                                        <th class="px-4 py-2">Pelanggan</th>
+                                        <th class="px-4 py-2">Nomor</th>
+                                        <th class="px-4 py-2">Metode</th>
+                                        <th class="px-4 py-2">Sub Total</th>
+                                        <th class="px-4 py-2">Total Bayar</th>
+                                        <th class="px-4 py-2">Kembalian</th>
+                                        <th class="px-4 py-2">Total Modal</th>
+                                        <th class="px-4 py-2">Profit</th>
+                                        <th class="px-4 py-2">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($transaksi as $i => $trx)
+                                        <tr
+                                            class="border-b border-gray-200 hover:bg-blue-50 transition-colors duration-200">
+                                            <td class="px-4 py-2 text-center font-medium">{{ $i + 1 }}</td>
+                                            <td class="px-4 py-2 font-semibold text-gray-800">{{ $trx->no_invoice }}</td>
+                                            <td class="px-4 py-2">
+                                                {{ \Carbon\Carbon::parse($trx->tanggal)->translatedFormat('d F Y') }}
+                                            </td>
+                                            <td class="px-4 py-2">{{ $trx->nama_user }}</td>
+                                            <td class="px-4 py-2">{{ $trx->nama_pelanggan ?? '-' }}</td>
+                                            <td class="px-4 py-2">{{ $trx->nomor_pelanggan ?? '-' }}</td>
+                                            <td class="px-4 py-2">{{ $trx->metode_pembayaran }}</td>
+                                            <td class="px-4 py-2 font-semibold text-gray-800">
+                                                Rp{{ number_format($trx->total, 0, ',', '.') }}
+                                            </td>
+                                            <td class="px-4 py-2 font-semibold text-gray-800">
+                                                Rp{{ number_format($trx->jumlah_bayar, 0, ',', '.') }}
+                                            </td>
+                                             <td class="px-4 py-2 font-semibold text-gray-800">
+                                                Rp{{ number_format($trx->kembalian, 0, ',', '.') }}
+                                            </td>
+                                            <td class="px-4 py-2 font-semibold text-gray-800">
+                                                Rp{{ number_format($trx->total_modal, 0, ',', '.') }}
+                                            </td>
+                                            <td class="px-4 py-2 font-semibold text-gray-800">
+                                                Rp{{ number_format($trx->profit, 0, ',', '.') }}
+                                            </td>
+                                            <td class="px-4 py-2 space-y-1">
+                                                <div class="flex flex-col space-y-1">
+                                                    {{-- Cetak Struk --}}
+                                                    <a href="{{ route('transaksi.cetak', $trx->id) }}" target="_blank"
+                                                        class="text-amber-600 hover:text-amber-800 font-semibold text-sm flex items-center justify-start">
+                                                        <i class="fa-solid fa-print mr-1"></i> Cetak Struk
+                                                    </a>
+
+                                                    {{-- Detail Transaksi --}}
+                                                    <button type="button" onclick="openDetailModal({{ $trx->id }})"
+                                                        class="text-blue-600 hover:text-blue-800 font-semibold text-sm flex items-center justify-start">
+                                                        <i class="fa-solid fa-eye mr-1"></i> Detail
                                                     </button>
-                                                </form>
-                                            @endif
-                                        @endauth
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="13" class="text-center py-4 text-gray-500 font-medium">
-                                        Tidak ada data transaksi.
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+
+                                                    {{-- Hapus (Hanya Admin) --}}
+                                                    @auth
+                                                        @if (auth()->user()->is_admin)
+                                                            <form
+                                                                action="{{ route('transaksi.destroy', $trx->id) }}"
+                                                                method="POST"
+                                                                onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="text-red-600 hover:text-red-800 font-semibold text-sm flex items-center justify-start">
+                                                                    <i class="fa-solid fa-trash mr-1"></i> Hapus
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @endauth
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="13"
+                                                class="text-center py-4 text-gray-500 font-medium">
+                                                Tidak ada data transaksi pada rentang tanggal ini.
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                @endif
+
 
                 {{-- Modal Detail Transaksi Desktop --}}
                 @foreach ($transaksi as $trx)
@@ -245,6 +356,7 @@
                 </script>
 
                 {{-- Mobile Card --}}
+                @if ($hasFilter)
                 <div class="md:hidden">
                     @forelse ($transaksi as $trx)
                         <div class="relative shadow-lg p-4 flex flex-col space-y-3 text-gray-700 dark:text-gray-300 text-sm overflow-hidden"
@@ -461,6 +573,8 @@
                         </div>
                     @endforelse
                 </div>
+                @else
+@endif
 
                 {{-- Pagination --}}
                 <div class="mt-6">

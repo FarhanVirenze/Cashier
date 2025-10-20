@@ -7,11 +7,11 @@
 
     <script src="https://kit.fontawesome.com/a2e0f1f3f1.js" crossorigin="anonymous"></script>
 
-    <div class="bg-gradient-to-br from-blue-100 via-blue-100 to-blue-100 min-h-screen pt-6 pb-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    <div class="bg-white min-h-screen pt-6 pb-16">
+        <div class="max-w-[98%] mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
 
             {{-- FILTER --}}
-            <div class="bg-white/70 backdrop-blur-xl shadow-lg rounded-2xl p-6 border border-gray-100">
+            <div class="bg-blue-50 backdrop-blur-xl shadow-lg rounded-2xl p-6 border border-blue-100">
                 <h3 class="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
                     <i class="fas fa-filter text-blue-500"></i> Filter Data
                 </h3>
@@ -54,11 +54,11 @@
                     <div class="flex items-end space-x-2 sm:col-span-2 md:col-span-1">
                         <button type="submit"
                             class="flex-1 bg-blue-600 text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-blue-700 hover:shadow-md transition-all duration-300">
-                            <i class="fas fa-check-circle mr-1"></i> Terapkan
+                            <i class="fas fa-check-circle mr-1"></i> Tampilkan
                         </button>
                         <a href="{{ route('dashboard') }}"
                             class="bg-gray-200 text-gray-700 px-4 py-2.5 rounded-xl font-medium hover:bg-gray-300 transition-all duration-300">
-                            <i class="fas fa-undo-alt"></i>
+                            <i class="fas fa-undo-alt"></i> Reset
                         </a>
                     </div>
                 </form>
@@ -79,7 +79,7 @@
 
                 @foreach ($cards as $card)
                     <div
-                        class="bg-white/60 backdrop-blur-lg border border-white/40 shadow-[0_4px_15px_rgba(0,0,0,0.1)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] transition-all duration-300 ease-in-out rounded-2xl p-5 text-center transform hover:scale-[1.03] group">
+                        class="bg-blue-50 backdrop-blur-lg border border-blue-100 shadow-[0_4px_15px_rgba(0,0,0,0.1)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] transition-all duration-300 ease-in-out rounded-2xl p-5 text-center transform hover:scale-[1.03] group">
                         <div
                             class="flex justify-center mb-3 {{ $card['color'] }} text-3xl group-hover:scale-110 transition-transform duration-300">
                             <i class="fas {{ $card['icon'] }}"></i>
@@ -125,17 +125,17 @@
                 @php
                     $charts = [
                         ['id' => 'penjualanChart', 'title' => 'Total Penjualan', 'color' => 'text-blue-700', 'icon' => 'fa-chart-line', 'border' => 'border-blue-100'],
-                        ['id' => 'profitChart', 'title' => 'Profit Harian', 'color' => 'text-green-700', 'icon' => 'fa-hand-holding-usd', 'border' => 'border-green-100'],
+                        ['id' => 'profitChart', 'title' => 'Profit Harian', 'color' => 'text-green-700', 'icon' => 'fa-hand-holding-usd', 'border' => 'border-blue-100'],
                         ['id' => 'transaksiChart', 'title' => 'Jumlah Transaksi', 'color' => 'text-blue-700', 'icon' => 'fa-file-invoice-dollar', 'border' => 'border-blue-100'],
-                        ['id' => 'metodePembayaranChart', 'title' => 'Distribusi Metode Pembayaran', 'color' => 'text-yellow-700', 'icon' => 'fa-wallet', 'border' => 'border-yellow-100'],
-                        ['id' => 'produkTerlarisChart', 'title' => 'Top 5 Produk Terlaris', 'color' => 'text-pink-700', 'icon' => 'fa-fire', 'border' => 'border-pink-100'],
-                        ['id' => 'stokProdukChart', 'title' => 'Top 5 Stok Produk', 'color' => 'text-purple-700', 'icon' => 'fa-box-open', 'border' => 'border-purple-100'],
+                        ['id' => 'metodePembayaranChart', 'title' => 'Distribusi Metode Pembayaran', 'color' => 'text-yellow-700', 'icon' => 'fa-wallet', 'border' => 'border-blue-100'],
+                        ['id' => 'produkTerlarisChart', 'title' => 'Top 5 Produk Terlaris', 'color' => 'text-pink-700', 'icon' => 'fa-fire', 'border' => 'border-blue-100'],
+                        ['id' => 'stokProdukChart', 'title' => 'Top 5 Stok Produk', 'color' => 'text-purple-700', 'icon' => 'fa-box-open', 'border' => 'border-blue-100'],
                     ];
                 @endphp
 
                 @foreach ($charts as $chart)
                     <div
-                        class="bg-white/80 shadow-lg rounded-2xl p-6 border {{ $chart['border'] }} hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 ease-in-out {{ $chart['border'] }}">
+                        class="bg-blue-50 shadow-lg rounded-2xl p-6 border {{ $chart['border'] }} hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 ease-in-out {{ $chart['border'] }}">
                         <h3 class="text-lg font-semibold {{ $chart['color'] }} mb-3 flex items-center gap-2">
                             <i class="fas {{ $chart['icon'] }}"></i> {{ $chart['title'] }}
                         </h3>
@@ -148,7 +148,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
                 {{-- PRODUK TERLARIS --}}
                 <div
-                    class="bg-white/80 backdrop-blur-md shadow-lg rounded-xl p-5 border border-gray-200 hover:shadow-xl transition-all duration-300">
+                    class="bg-blue-50 backdrop-blur-md shadow-lg rounded-xl p-5 border border-blue-100 hover:shadow-xl transition-all duration-300">
                     <h3 class="text-lg font-bold text-gray-700 mb-3 flex items-center gap-2">
                         <i class="fas fa-star text-yellow-500"></i> Produk Terlaris
                     </h3>
@@ -195,7 +195,7 @@
 
                 {{-- STOK PRODUK --}}
                 <div
-                    class="bg-white/80 backdrop-blur-md shadow-lg rounded-xl p-5 border border-gray-200 hover:shadow-xl transition-all duration-300">
+                    class="bg-blue-50 backdrop-blur-md shadow-lg rounded-xl p-5 border border-blue-100 hover:shadow-xl transition-all duration-300">
                     <h3 class="text-lg font-bold text-gray-700 mb-3 flex items-center gap-2">
                         <i class="fas fa-cubes text-green-500"></i> Stok Produk Tersedia
                     </h3>

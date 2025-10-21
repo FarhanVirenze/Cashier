@@ -1,13 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-lg text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-200 dark:text-gray-200 leading-tight">
             {{ __('Laporan Penjualan') }}
         </h2>
     </x-slot>
 
-    <div class="py-4">
+    <div class="py-6">
         {{-- Lebarkan area utama --}}
-        <div class="max-w-[98%] mx-auto sm:px-4 lg:px-6">
+        <div class="max-w-[97%]  mx-auto px-4 sm:px-6 lg:px-6">
             <div class="space-y-4">
 
                 {{-- Notifikasi --}}
@@ -251,7 +251,6 @@
                     </div>
                 @endif
 
-
                 {{-- Modal Detail Transaksi Desktop --}}
                 @foreach ($transaksi as $trx)
                     <div id="detailModal{{ $trx->id }}"
@@ -419,60 +418,67 @@
                                 </div>
                             </div>
 
-                            {{-- Tombol Aksi --}}
-                            <div class="flex space-x-2 mt-3">
-                                <a href="{{ route('transaksi.cetak', $trx->id) }}" target="_blank"
-                                    class="flex items-center bg-white text-amber-600 px-3 py-1 rounded-lg font-semibold text-sm hover:bg-blue-50 hover:text-amber-700 transition">
-                                    <i class="fa-solid fa-print mr-1"></i> Cetak Struk
-                                </a>
+                            {{-- Tombol Aksi Mobile --}}
+<div class="flex flex-wrap items-center gap-2 mt-3">
 
-                                <button type="button" onclick="openDetailModalMobile({{ $trx->id }})"
-                                    class="flex items-center bg-white text-blue-600 px-3 py-1 rounded-lg font-semibold text-sm hover:bg-green-50 hover:text-blue-700 transition">
-                                    <i class="fa-solid fa-eye mr-1"></i> Detail
-                                </button>
-                            </div>
+    {{-- Cetak Struk --}}
+    <a href="{{ route('transaksi.cetak', $trx->id) }}" target="_blank"
+        class="flex-1 min-w-[120px] flex items-center justify-center bg-white text-amber-600 px-3 py-1 rounded-lg font-semibold text-sm hover:bg-blue-50 hover:text-amber-700 transition">
+        <i class="fa-solid fa-print mr-1"></i> Cetak Struk
+    </a>
 
-                            @auth
-                                @if (auth()->user()->is_admin)
-                                    {{-- Tombol Hapus --}}
-                                    <button type="button" onclick="openDeleteModal({{ $trx->id }})"
-                                        class="flex items-center ml-2 bg-gray-200 text-red-600 px-3 py-1 rounded font-semibold text-sm hover:bg-gray-300 hover:text-red-700 transition-colors duration-200">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4a1 1 0 011 1v1H9V4a1 1 0 011-1z" />
-                                        </svg>
-                                        Hapus
-                                    </button>
+    {{-- Detail --}}
+    <button type="button" onclick="openDetailModalMobile({{ $trx->id }})"
+        class="flex-1 min-w-[120px] flex items-center justify-center bg-white text-blue-600 px-3 py-1 rounded-lg font-semibold text-sm hover:bg-green-50 hover:text-blue-700 transition">
+        <i class="fa-solid fa-eye mr-1"></i> Detail
+    </button>
 
-                                    {{-- Modal Konfirmasi Hapus --}}
-                                    <div id="deleteModal{{ $trx->id }}" class="hidden fixed inset-0 flex items-center justify-center z-50">
-                                        <div class="modal-content bg-white bg-cover bg-center rounded-xl shadow-2xl p-6 w-80"
-                                            style="background-image: url('{{ asset('images/card1.png') }}');">
-                                            <h2 class="text-lg font-semibold text-white mb-3 text-center">Konfirmasi Hapus</h2>
-                                            <p class="text-sm text-white text-center mb-5">
-                                                Apakah kamu yakin ingin menghapus transaksi ini?
-                                            </p>
+    @auth
+        @if (auth()->user()->is_admin)
+            {{-- Hapus --}}
+            <button type="button" onclick="openDeleteModal({{ $trx->id }})"
+                class="flex-1 min-w-[120px] flex items-center justify-center bg-gray-200 text-red-600 px-3 py-1 rounded-lg font-semibold text-sm hover:bg-gray-300 hover:text-red-700 transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4a1 1 0 011 1v1H9V4a1 1 0 011-1z" />
+                </svg>
+                Hapus
+            </button>
+        @endif
+    @endauth
+</div>
 
-                                            <div class="flex justify-center space-x-3">
-                                                <form action="{{ route('transaksi.destroy', $trx->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition duration-200">
-                                                        Hapus
-                                                    </button>
-                                                </form>
+{{-- Modal Konfirmasi Hapus Mobile --}}
+@auth
+    @if (auth()->user()->is_admin)
+        <div id="deleteModal{{ $trx->id }}" class="hidden fixed inset-0 flex items-center justify-center z-50">
+            <div class="modal-content bg-white bg-cover bg-center rounded-xl shadow-2xl p-6 w-80"
+                style="background-image: url('{{ asset('images/card1.png') }}');">
+                <h2 class="text-lg font-semibold text-white mb-3 text-center">Konfirmasi Hapus</h2>
+                <p class="text-sm text-white text-center mb-5">
+                    Apakah kamu yakin ingin menghapus transaksi ini?
+                </p>
 
-                                                <button type="button" onclick="closeDeleteModal({{ $trx->id }})"
-                                                    class="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-400 transition duration-200">
-                                                    Batal
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            @endauth
+                <div class="flex justify-center gap-3 flex-wrap">
+                    <form action="{{ route('transaksi.destroy', $trx->id) }}" method="POST" class="flex-1 min-w-[100px]">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                            class="w-full bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition duration-200">
+                            Hapus
+                        </button>
+                    </form>
+
+                    <button type="button" onclick="closeDeleteModal({{ $trx->id }})"
+                        class="flex-1 min-w-[100px] w-full bg-gray-300 text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-400 transition duration-200">
+                        Batal
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
+@endauth
 
                             {{-- Modal Detail Mobile --}}
                             <div id="detailModalMobile{{ $trx->id }}"

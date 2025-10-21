@@ -31,7 +31,7 @@
             <header class="relative shadow" style="background-image: url('{{ asset('images/navbar.png') }}'); 
                    background-size: cover; 
                    background-position: center;">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-white">
+                <div class="max-w-[97%] mx-auto py-6 px-4 sm:px-6 lg:px-8 text-white">
                     {{ $header }}
                 </div>
             </header>

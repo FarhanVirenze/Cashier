@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-200 dark:text-gray-200 leading-tight">
             {{ __('Manajemen Produk') }}
         </h2>
     </x-slot>
 
     <div class="py-6 text-gray-900 dark:text-gray-100">
-        <div class="max-w-[95%] mx-auto sm:px-4 lg:px-6">
+         <div class="max-w-[97%] mx-auto px-4 sm:px-6 lg:px-6">
             <div class="overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100 shadow-lg border border-blue-200 sm:rounded-xl">
                 <div class="px-6 pt-6 w-full mr-3 sm:w-2/3 md:w-1/2 lg:w-1/3">
 
@@ -25,7 +25,7 @@
                             placeholder="Cari berdasarkan nama produk..." value="{{ request('search') }}" autofocus />
 
                         <x-search-button type="submit"
-                            class="text-sm px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-md shadow-md hover:scale-105 transition-all duration-200">
+                            class="text-sm px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md shadow-md transition-all duration-200">
                             {{ __('Search') }}
                         </x-search-button>
 
@@ -43,7 +43,7 @@
                                 <div class="flex justify-between items-center px-3 pt-2 pb-1">
                                     <h2 class="text-lg font-bold text-gray-800">Daftar Produk</h2>
                                     <a href="{{ route('product.create') }}"
-                                        class="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-800 text-xs transition-all duration-200">
+                                        class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 text-xs transition-all duration-200">
                                         + Tambah Produk
                                     </a>
                                 </div>
@@ -95,7 +95,7 @@
                                     </div>
                                     <div class="col-span-full flex justify-end">
                                         <button type="submit"
-                                            class="bg-gradient-to-r from-blue-500 to-blue-600 text-white mt-3 px-4 py-2 rounded-md shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300 text-sm">
+                                            class="bg-blue-500 hover:bg-blue-600 text-white mt-3 px-4 py-2 rounded-md shadow-md hover:shadow-lg transition-all duration-300 text-sm">
                                             Tambah Produk
                                         </button>
                                     </div>

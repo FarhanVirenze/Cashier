@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            <h2 class="font-semibold text-xl text-gray-200 dark:text-gray-200 leading-tight">
                 {{ __('Point of Sale') }}
             </h2>
             <div class="flex items-center gap-4">
@@ -32,8 +32,8 @@
         </div>
     </x-slot>
 
-    <div class="text-white">
-        <div class="max-w-[95%] mx-auto sm:px-6 lg:px-8">
+    <div class="py-6 text-white">
+         <div class="max-w-[97%] mx-auto px-4 sm:px-6 lg:px-6">
             <div class="overflow-hidden bg-blue-50 dark:bg-blue-100/30 shadow-lg sm:rounded-xl border border-blue-100">
                 <div class="px-6 pt-6 mb-1 pb-4 w-full sm:w-2/3 md:w-1/2 lg:w-1/3 mx-auto">
 
@@ -69,7 +69,7 @@
                             value="{{ request('product-search') }}" autofocus />
 
                         <x-search-button type="submit"
-                            class="text-xs px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all duration-300 whitespace-nowrap">
+                            class="text-xs px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl transition-all duration-300 whitespace-nowrap">
                             {{ __('Search') }}
                         </x-search-button>
 

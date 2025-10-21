@@ -1,13 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-lg text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-lg text-gray-200 dark:text-gray-200 leading-tight">
             {{ __('Keranjang Belanja') }}
         </h2>
     </x-slot>
 
-    <div class="py-4">
-        <div class="max-w-[95%] mx-auto px-3 sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-white/95 overflow-hidden shadow-lg sm:rounded-xl border border-gray-100">
+    <div class="py-6">
+        <div class="max-w-[97%] mx-auto px-4 sm:px-6 lg:px-6">
+            <div class="bg-blue-50 dark:bg-blue-50 overflow-hidden shadow-lg sm:rounded-xl border border-blue-100">
                 <div class="p-5 sm:p-6 text-gray-900 dark:text-gray-100 text-sm">
 
                     {{-- === Notifikasi === --}}

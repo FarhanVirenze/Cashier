@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-2xl text-gray-800 dark:text-gray-200 leading-tight flex items-center gap-3">
+        <h2 class="font-semibold text-xl text-gray-200 dark:text-gray-200 leading-tight flex items-center gap-3">
             <span>{{ __('Dashboard') }}</span>
         </h2>
     </x-slot>
@@ -8,12 +8,12 @@
     <script src="https://kit.fontawesome.com/a2e0f1f3f1.js" crossorigin="anonymous"></script>
 
     <div class="bg-white min-h-screen pt-6 pb-16">
-        <div class="max-w-[98%] mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div class="max-w-[97%] mx-auto px-4 sm:px-6 lg:px-6 space-y-10">
 
             {{-- FILTER --}}
             <div class="bg-blue-50 backdrop-blur-xl shadow-lg rounded-2xl p-6 border border-blue-100">
                 <h3 class="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
-                    <i class="fas fa-filter text-blue-500"></i> Filter Data
+                    Filter Data
                 </h3>
 
                 <form method="GET" action="{{ route('dashboard') }}"
@@ -53,7 +53,7 @@
                     {{-- Tombol --}}
                     <div class="flex items-end space-x-2 sm:col-span-2 md:col-span-1">
                         <button type="submit"
-                            class="flex-1 bg-blue-600 text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-blue-700 hover:shadow-md transition-all duration-300">
+                            class="flex-1 bg-blue-500 text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-blue-600 hover:shadow-md transition-all duration-300">
                             <i class="fas fa-check-circle mr-1"></i> Tampilkan
                         </button>
                         <a href="{{ route('dashboard') }}"
@@ -125,7 +125,7 @@
                 @php
                     $charts = [
                         ['id' => 'penjualanChart', 'title' => 'Total Penjualan', 'color' => 'text-blue-700', 'icon' => 'fa-chart-line', 'border' => 'border-blue-100'],
-                        ['id' => 'profitChart', 'title' => 'Profit Harian', 'color' => 'text-green-700', 'icon' => 'fa-hand-holding-usd', 'border' => 'border-blue-100'],
+                        ['id' => 'profitChart', 'title' => 'Profit', 'color' => 'text-green-700', 'icon' => 'fa-hand-holding-usd', 'border' => 'border-blue-100'],
                         ['id' => 'transaksiChart', 'title' => 'Jumlah Transaksi', 'color' => 'text-blue-700', 'icon' => 'fa-file-invoice-dollar', 'border' => 'border-blue-100'],
                         ['id' => 'metodePembayaranChart', 'title' => 'Distribusi Metode Pembayaran', 'color' => 'text-yellow-700', 'icon' => 'fa-wallet', 'border' => 'border-blue-100'],
                         ['id' => 'produkTerlarisChart', 'title' => 'Top 5 Produk Terlaris', 'color' => 'text-pink-700', 'icon' => 'fa-fire', 'border' => 'border-blue-100'],

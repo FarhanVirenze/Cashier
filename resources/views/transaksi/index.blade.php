@@ -180,7 +180,9 @@
                                     @forelse ($transaksi as $i => $trx)
                                         <tr
                                             class="border-b border-gray-200 hover:bg-blue-50 transition-colors duration-200">
-                                            <td class="px-4 py-2 text-center font-medium">{{ $i + 1 }}</td>
+                                            <td class="px-4 py-2 text-center font-medium">
+    {{ $transaksi->firstItem() + $i }}
+</td>
                                             <td class="px-4 py-2 font-semibold text-gray-800">{{ $trx->no_invoice }}</td>
                                             <td class="px-4 py-2">
                                                 {{ \Carbon\Carbon::parse($trx->tanggal)->translatedFormat('d F Y') }}
@@ -582,10 +584,12 @@
                 @else
 @endif
 
-                {{-- Pagination --}}
-                <div class="mt-6">
-                    {{ $transaksi->links() }}
-                </div>
+               {{-- Pagination --}}
+@if ($hasFilter && $transaksi->count())
+    <div class="mt-6">
+        {{ $transaksi->links() }}
+    </div>
+@endif
 
             </div>
         </div>

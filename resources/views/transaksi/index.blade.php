@@ -73,93 +73,92 @@
                     </div>
                 @endif
 
-                {{-- === Desktop Table === --}}
-                @if ($hasFilter)
-                    <div class="hidden md:block space-y-4">
+                {{-- === Data Penjualan (Responsif untuk Mobile & Desktop) === --}}
+@if ($hasFilter)
+<div class="bg-blue-50 shadow-md rounded-lg border border-blue-100 p-5 space-y-4">
 
-                        {{-- === Header Data Penjualan === --}}
-<div class="bg-blue-50 shadow-md rounded-lg border border-blue-100 p-5">
-    <h3 class="text-xl font-bold text-gray-800 border-b border-gray-300 pb-2 mb-4">
+    {{-- === Header Data Penjualan === --}}
+    <h3 class="text-xl font-bold text-gray-800 border-b border-gray-300 pb-2 mb-3">
         Data Penjualan
     </h3>
 
-    {{-- Rentang Tanggal (Atas-Bawah) --}}
-    <div class="flex flex-col gap-3 mb-4">
-        <div class="flex items-center">
-            <span class="font-semibold w-40 text-gray-700">Dari Tanggal</span>
-            <span class="text-gray-800">
-                : {{ $start ? date('d/m/Y', strtotime($start)) : '-' }}
-            </span>
-        </div>
-        <div class="flex items-center">
-            <span class="font-semibold w-40 text-gray-700">Sampai Tanggal</span>
-            <span class="text-gray-800">
-                : {{ $end ? date('d/m/Y', strtotime($end)) : '-' }}
-            </span>
-        </div>
+    {{-- 📅 Rentang Tanggal (Vertikal) --}}
+<div class="flex flex-col gap-2 text-sm sm:text-base">
+    <div class="flex items-center">
+        <span class="font-semibold w-36 text-gray-700">Dari Tanggal</span>
+        <span class="text-gray-800">
+            : {{ $start ? date('d/m/Y', strtotime($start)) : '-' }}
+        </span>
     </div>
+    <div class="flex items-center">
+        <span class="font-semibold w-36 text-gray-700">Sampai Tanggal</span>
+        <span class="text-gray-800">
+            : {{ $end ? date('d/m/Y', strtotime($end)) : '-' }}
+        </span>
+    </div>
+</div>
 
-    {{-- Tombol Aksi + Search sejajar --}}
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-        {{-- Tombol Aksi --}}
-        <div class="flex flex-wrap gap-2">
+    {{-- 🎯 Tombol Aksi + Search (Responsif) --}}
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mt-3">
+
+        {{-- 🔘 Tombol Aksi --}}
+        <div class="flex flex-wrap gap-2 w-full sm:w-auto">
             <a href="{{ route('transaksi.export-pdf', ['start_date' => $start, 'end_date' => $end]) }}"
-                class="flex items-center bg-green-600 hover:bg-green-700 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition-all duration-150">
+                class="flex items-center justify-center bg-green-600 hover:bg-green-700 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition-all duration-150 w-full sm:w-auto">
                 <i class="fa-solid fa-file-pdf mr-2"></i> CETAK PDF
             </a>
 
             <button onclick="window.print()"
-                class="flex items-center bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition-all duration-150">
+                class="flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition-all duration-150 w-full sm:w-auto">
                 <i class="fa-solid fa-print mr-2"></i> PRINT
             </button>
         </div>
 
-       {{-- 🔍 Search Box Modern & Stylish (dengan tombol Reset di luar) --}}
-<div class="flex items-center justify-end gap-2 mt-2 w-full sm:w-auto">
-    {{-- Form Search --}}
-    <form action="{{ route('transaksi.index') }}" method="GET"
-        class="relative flex items-center bg-white/80 backdrop-blur-md border border-gray-200 rounded-full shadow-sm hover:shadow-md transition-all duration-300 focus-within:ring-2 focus-within:ring-blue-400 w-full sm:w-80">
+        {{-- 🔍 Search Box Modern --}}
+        <div class="flex flex-col sm:flex-row items-center justify-end gap-2 w-full sm:w-auto">
+            <form action="{{ route('transaksi.index') }}" method="GET"
+                class="relative flex items-center bg-white/80 backdrop-blur-md border border-gray-200 rounded-full shadow-sm hover:shadow-md transition-all duration-300 focus-within:ring-2 focus-within:ring-blue-400 w-full sm:w-80">
 
-        {{-- Hidden input agar filter tanggal tetap tersimpan --}}
-        <input type="hidden" name="start_date" value="{{ $start }}">
-        <input type="hidden" name="end_date" value="{{ $end }}">
+                {{-- Hidden input agar filter tanggal tetap tersimpan --}}
+                <input type="hidden" name="start_date" value="{{ $start }}">
+                <input type="hidden" name="end_date" value="{{ $end }}">
 
-        {{-- Icon Search (di kiri dalam input) --}}
-        <span class="absolute left-4 text-gray-400">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </span>
+                {{-- Icon Search --}}
+                <span class="absolute left-4 text-gray-400">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
 
-        {{-- Input Field --}}
-        <input type="text" name="search" value="{{ request('search') }}"
-            placeholder="Cari transaksi..."
-            class="w-full pl-10 pr-9 py-2 text-sm text-gray-700 bg-transparent rounded-full focus:outline-none placeholder-gray-400 transition-all" />
+                {{-- Input --}}
+                <input type="text" name="search" value="{{ request('search') }}"
+                    placeholder="Cari transaksi..."
+                    class="w-full pl-10 pr-9 py-2 text-sm text-gray-700 bg-transparent rounded-full focus:outline-none placeholder-gray-400 transition-all" />
 
-        {{-- Tombol Submit (ikon panah di kanan) --}}
-        <button type="submit"
-            class="absolute right-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full w-7 h-7 flex items-center justify-center shadow transition-all duration-200 hover:scale-105"
-            title="Cari">
-            <i class="fa-solid fa-arrow-right text-xs"></i>
-        </button>
-    </form>
+                {{-- Tombol Submit --}}
+                <button type="submit"
+                    class="absolute right-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full w-7 h-7 flex items-center justify-center shadow transition-all duration-200 hover:scale-105"
+                    title="Cari">
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
+            </form>
 
-    {{-- Tombol Reset (di luar input) --}}
-    @if(request('search'))
-        <a href="{{ route('transaksi.index', ['start_date' => $start, 'end_date' => $end]) }}"
-            class="flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-600 border border-gray-200 text-sm font-medium px-3 py-2 rounded-full shadow-sm transition-all duration-200"
-            title="Reset pencarian">
-            <i class="fa-solid fa-rotate-left"></i>
-            <span>Reset</span>
-        </a>
-    @endif
+            {{-- Tombol Reset (Hanya muncul jika ada pencarian) --}}
+            @if(request('search'))
+                <a href="{{ route('transaksi.index', ['start_date' => $start, 'end_date' => $end]) }}"
+                    class="flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-600 border border-gray-200 text-sm font-medium px-3 py-2 rounded-full shadow-sm transition-all duration-200 w-full sm:w-auto justify-center"
+                    title="Reset pencarian">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>Reset</span>
+                </a>
+            @endif
+        </div>
+    </div>
 </div>
-</div>
-                        </div>
 
-                        {{-- === Tabel Data Penjualan === --}}
-                        <div
-                            class="overflow-x-auto rounded-lg shadow-lg border border-gray-200 bg-white max-w-[98vw] mx-auto">
-                            <table class="min-w-full text-gray-900 whitespace-nowrap">
-                                <thead>
+                        {{-- === Tabel Data Penjualan (Hanya Desktop) === --}}
+<div class="hidden md:block">
+    <div class="overflow-x-auto rounded-lg shadow-lg border border-gray-200 bg-white max-w-[98vw] mx-auto">
+        <table class="min-w-full text-gray-900 whitespace-nowrap">
+            <thead>
                                     <tr class="bg-blue-600 text-white uppercase text-sm">
                                         <th class="px-4 py-2">No</th>
                                         <th class="px-4 py-2">No. Invoice</th>
